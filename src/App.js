@@ -5,15 +5,18 @@ import './App.css';
 
 function App() {
 	const [date, setDate] = useState({})
-	const [options, setOptions] = useState({locale: "hu-HU", type: "full", is12: "false", showSeconds: "true"})
 	const [delay, setDelay] = useState(1000)
+	const [options, setOptions] = useState({
+		locale: "hu-HU", 
+		type: "full", 
+		is12: "false", 
+		showSeconds: "true"
+	})
 
 	const queryString = `?type=${options.type}&locale=${options.locale}&is12=${options.is12}&showSeconds=${options.showSeconds}`
 	const updateDate =  useCallback(async () => {
 		const response = await fetch(`http://localhost:3001/currentTime${queryString}`)
 		const newDate = await response.json()
-		//console.log("updateDate")
-		//console.log(newDate)
 		setDate(newDate)
 	}
 	, [queryString])
@@ -45,7 +48,7 @@ function App() {
 
 	return (
 		<div className="App">
-			<Clock fullDate={date} onChange={onOptionChange}/>
+			<Clock responseDate={date} onChange={onOptionChange}/>
 		</div>
 	);
 }
