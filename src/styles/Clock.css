@@ -1,0 +1,57 @@
+.Clock {
+	text-align: center;
+	font-weight: 300;
+	background: #F0F0F0;
+	overflow: hidden;
+}
+
+.Clock-display {
+	color: #C12016;
+	height: 30vh;
+	box-sizing: border-box;
+	padding: 4em;
+	/* border-bottom-left-radius:50% 17%;
+	border-bottom-right-radius:50% 17%; */
+	background: white;
+	position: relative;
+}
+
+.Clock-time {
+	font-size: 8rem;
+}
+
+.Clock-time span {
+	font-size: 2.7rem;
+}
+
+.Clock-date {
+	font-size: 2.7rem;
+	position: relative;
+	z-index: 1;
+}
+
+.Clock-date.date-only {
+	font-size: 6rem;
+	margin-top: .5em;
+}
+
+.Clock-settings {
+	padding-top: 6em;
+	height: 70vh;
+	box-sizing: border-box;
+}
+
+.Clock-option {
+	margin: 2em 0;
+}
+
+.ellipse {
+	background: white;
+	height: 200px;
+	clip-path: ellipse(50% 30% at 50% 50%);
+	box-sizing: border-box;
+	position: absolute;
+	left: -20px;
+	right: -20px;
+	bottom: -100px
+}

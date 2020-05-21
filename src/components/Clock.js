@@ -13,9 +13,34 @@ const Clock = () => {
 		is12: "false", 
 		showSeconds: "true"
 	})
-	const hourMinute = date.time?.slice(0, -3)
-	const second = date.time?.slice(-3)
-	console.log(hourMinute, second);
+
+	let hourMinute
+	let second
+	let period
+	const formatDate  = () => {
+		if (options.is12 === "true") {
+			if (options.locale === "hu-HU") {
+				period = date.time?.slice(0, 3)
+				hourMinute = date.time?.slice(4,9)
+				if (options.showSeconds === "true") {
+					second = date.time?.slice(-3)
+				}
+			} else if (options.locale === "en-US") {
+				period = date.time?.slice(-3)
+				hourMinute = date.time?.slice(0,5)
+				if (options.showSeconds === "true") {
+					second = date.time?.slice(5,9)
+				}
+			}
+		} else if (options.is12 === "false") {
+			hourMinute = date.time?.slice(0,5)
+			if (options.showSeconds === "true") {
+				second = date.time?.slice(5,9)
+			}
+		}
+		
+	}
+	formatDate()
 
 	const updateDate =  useCallback(async () => {
 		const queryString = `?type=${options.type}&locale=${options.locale}&is12=${options.is12}&showSeconds=${options.showSeconds}`
@@ -37,8 +62,7 @@ const Clock = () => {
 		} else if (options.showSeconds === "false") {
 			setDelay(3000)
 		} else {
-			//setDelay(1000)
-			setDelay(60000)
+			setDelay(1000)
 		}
 	}, [options])
 
@@ -53,12 +77,15 @@ const Clock = () => {
 	return (
 		<div className="Clock">
 			<div className="Clock-display">
-				<div className="Clock-time">{hourMinute}<span>{second}</span></div>
-				<div className="Clock-date">{date.date}</div>
+				<div className="Clock-time">{hourMinute}<span>{second} {period}</span></div>
+				<div className={`Clock-date ${options.type === "date" && "date-only"}`}>{date.date}</div>
+				<div className="ellipse"></div>
 			</div>
+			
 			<div className="Clock-settings">
+				<h3>Beállítások</h3>
 				<div className="Clock-option">
-					<ButtonGroup color="secondary" aria-label="outlined secondary button group">
+					<ButtonGroup color="default" size="large" aria-label="outlined default button group">
 						<Button onClick={onOptionChange} name="type" value="full">mind</Button>
 						<Button onClick={onOptionChange} name="type" value="date">dátum</Button>
 						<Button onClick={onOptionChange} name="type" value="time">idő</Button>
@@ -66,23 +93,23 @@ const Clock = () => {
 				</div>
 
 				<div className="Clock-option">
-					<ButtonGroup color="secondary" aria-label="outlined secondary button group">
+					<ButtonGroup color="default" size="large" aria-label="outlined default button group">
 						<Button onClick={onOptionChange} name="locale" value="hu-HU">magyar</Button>
 						<Button onClick={onOptionChange} name="locale" value="en-US">angol</Button>
 					</ButtonGroup>
 				</div>
 
 				<div className="Clock-option">
-					<ButtonGroup color="secondary" aria-label="outlined secondary button group">
+					<ButtonGroup color="default" size="large" aria-label="outlined default button group">
 						<Button onClick={onOptionChange} name="is12" value="true">12 óra</Button>
 						<Button onClick={onOptionChange} name="is12" value="false">24 óra</Button>
 					</ButtonGroup>
 				</div>
 
 				<div className="Clock-option">
-					<ButtonGroup color="secondary" aria-label="outlined secondary button group">
-						<Button onClick={onOptionChange} name="showSeconds" value="true">mp</Button>
-						<Button onClick={onOptionChange} name="showSeconds" value="false">no mp</Button>
+					<ButtonGroup color="default" size="large" aria-label="outlined default button group">
+						<Button onClick={onOptionChange} name="showSeconds" value="true">ó:p:mp</Button>
+						<Button onClick={onOptionChange} name="showSeconds" value="false">ó:p</Button>
 					</ButtonGroup>
 				</div>
 			</div>
